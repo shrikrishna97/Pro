@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>Quiz</title>
-    <meta http-equiv="refresh" content="5">
+    <!-- <meta http-equiv="refresh" content="5"> -->
 </head>
 <body>
     <h1>Quiz Page</h1>
-    <p>Time Left: {{ remaining_time }}</p>
+    <p id="duration" style="display: none;">{{ remaining_time }}</p>
+    <p id="displayTime"></p>
 
     <form method="POST" action="/quiz/page">
         {% for question in questions %}
@@ -15,5 +16,45 @@
         {% endfor %}
         <button type="submit">Submit</button>
     </form>
+    <script>
+        const duration =  document.querySelector('#duration').textContent;
+
+        const displayTime = document.querySelector('#displayTime');
+        let duration_in_sec = time_string_to_sec(duration)
+
+        const timer = setInterval( () => {
+            displayTime.innerHTML = sec_to_time_format(duration_in_sec).formatted;
+            duration_in_sec -= 1;
+            if (duration_in_sec <= 0){
+                clearInterval(timer)
+                duration_in_sec = 0;
+            }
+        }, 1000)
+        
+
+        function time_string_to_sec(timeString) {
+            const [hours, minutes, rest] = timeString.split(":");
+            const [seconds, milliseconds] = rest.split(".");
+
+            return hours*3600 + minutes * 60 + seconds;
+        }
+
+        function sec_to_time_format(time_in_sec) {
+            const hours = Math.floor(time_in_sec / 3600);
+            const minutes = Math.floor((time_in_sec % 3600) / 60);
+            const seconds = Math.floor(time_in_sec % 60);
+            const milliseconds = Math.round((time_in_sec % 1) * 1000000); 
+
+            return {
+                hours,
+                minutes,
+                seconds,
+                milliseconds,
+                formatted: `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+            };
+        }
+
+
+     </script>
 </body>
 </html>
