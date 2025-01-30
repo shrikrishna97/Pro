@@ -21,11 +21,13 @@
 
         const displayTime = document.querySelector('#displayTime');
         let duration_in_sec = time_string_to_sec(duration)
+        displayTime.innerHTML = sec_to_time_format(duration_in_sec).formatted;
 
         const timer = setInterval( () => {
             displayTime.innerHTML = sec_to_time_format(duration_in_sec).formatted;
             duration_in_sec -= 1;
             if (duration_in_sec <= 0){
+                window.location.reload();
                 clearInterval(timer)
                 duration_in_sec = 0;
             }
