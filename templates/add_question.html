@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Questions</title>
+</head>
+<body>
+    <h1>Add New Question</h1>
+    <form method="POST" action="/add_question">
+        <label for="question_text">Question:</label>
+        <input type="text" name="question_text" required><br>
+
+        <label for="correct_answer">Correct Answer:</label>
+        <input type="text" name="correct_answer" required><br>
+
+        <button type="submit">Add Question</button>
+    </form>
+
+    <h2>Existing Questions</h2>
+    <ul>
+        {% for question in questions %}
+            <li>{{ question.question_text }} - <strong>{{ question.correct_answer }}</strong></li>
+        {% endfor %}
+    </ul>
+
+    <a href="/quiz">Start Quiz</a>
+</body>
+</html>

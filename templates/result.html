@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Results</title>
+</head>
+<body>
+    <h1>Quiz Results</h1>
+    {% for result in results %}
+        <p>
+            <strong>{{ result.question }}</strong><br>
+            Your Answer: <span {% if result.is_correct %} style="color:green;" {% else %} style="color:red;" {% endif %}>
+                {{ result.your_answer }}
+            </span><br>
+            Correct Answer: {{ result.correct_answer }}
+        </p>
+        <hr>
+    {% endfor %}
+</body>
+</html>
